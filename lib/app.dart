@@ -12,7 +12,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: rootNavigatorKey,
-      title: 'Flutter Demo',
+      title: 'Image Galley',
       theme: ThemeData(
         // This is the theme of your application.
         //

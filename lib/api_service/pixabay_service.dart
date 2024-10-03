@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:image_gallery_app/env/env.dart';
 import 'package:image_gallery_app/models/image_data.dart';
 
 class PixabayService {
   final String _apiKey =
-      'YOUR_PIXABAY_API_KEY'; // Dont commit pixabay api key to git repo
+      Env.pixabayApiKey; // Dont commit pixabay api key to git repo
 
   Future<List<ImageData>> fetchImages(int page) async {
     final response = await http.get(Uri.parse(
