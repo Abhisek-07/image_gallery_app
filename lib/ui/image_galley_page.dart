@@ -46,15 +46,35 @@ class ImageGalleryPageState extends State<ImageGalleryPage> {
     super.dispose();
   }
 
+  /// Method to calculate number of columns based on screen width
+  int _calculateColumns(double screenWidth) {
+    if (screenWidth >= 1200) {
+      // Desktop/Laptop screen
+      return 4;
+    } else if (screenWidth >= 800) {
+      // Tablet/iPad screen
+      return 3;
+    } else {
+      // Phone screen
+      return 2;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Get screen width dynamically
+    double screenWidth = MediaQuery.of(context).size.width;
+    int columns = _calculateColumns(screenWidth);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Random Image Gallery')),
       body: PagedGridView<int, ImageData>(
         pagingController: _pagingController,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.8, // Adjust to leave space for likes and views
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: columns, // Dynamic number of columns
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 0.8, // Adjust based on design
         ),
         builderDelegate: PagedChildBuilderDelegate<ImageData>(
           itemBuilder: (context, imageData, index) => Card(
@@ -66,7 +86,8 @@ class ImageGalleryPageState extends State<ImageGalleryPage> {
                     imageUrl: imageData.imageUrl,
                     placeholder: (context, url) =>
                         const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                     fit: BoxFit.cover,
                   ),
                 ),
